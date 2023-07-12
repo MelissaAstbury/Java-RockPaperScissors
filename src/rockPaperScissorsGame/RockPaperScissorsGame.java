@@ -22,43 +22,50 @@ public class RockPaperScissorsGame {
 			
 		// Method called to ask for number of games the users wish to play
 		roundsToPlay = ChosenNumberOfRounds();
-		//Construct output to be displayed back to the user
-		output = "You have chosen to play " + roundsToPlay + " games. Let the games begin!";
-		DisplayMessage(output);
 		
-		// Loop through each round so the users can choose different options (rock, paper or scissors)
-		for(int i = 0; i < roundsToPlay; i++) {
-			// Player must choose rock, paper or scissors which corresponds to a number. This number must be 0, 1 or 2. If not the user will be asked again for another number.
-			while (playerOneOption == -1) {
-				String playerOneInput = JOptionPane.showInputDialog("Player 1, choose one of the following: \n Rock: 0 \n Paper: 1 \n Scissors: 2");
-				if(IsIntegerInRange(playerOneInput, 0, 2)) {
-					playerOneOption = Integer.parseInt(playerOneInput);
-				};
-			}
-			while(playerTwoOption == -1) {
-				String playerTwoInput = JOptionPane.showInputDialog("Player 2, choose one of the following: \n Rock: 0 \n Paper: 1 \n Scissors: 2");
-				if(IsIntegerInRange(playerTwoInput, 0, 2)) {
-					playerTwoOption = Integer.parseInt(playerTwoInput);
-				};
+		if (roundsToPlay != 0) {
+			//Construct output to be displayed back to the user
+			output = "You have chosen to play " + roundsToPlay + " games. Let the games begin!";
+			DisplayMessage(output);
+			
+			// Loop through each round so the users can choose different options (rock, paper or scissors)
+			for(int i = 0; i < roundsToPlay; i++) {
+				// Player must choose rock, paper or scissors which corresponds to a number. This number must be 0, 1 or 2. If not the user will be asked again for another number.
+				while (playerOneOption == -1) {
+					String playerOneInput = JOptionPane.showInputDialog("Player 1, choose one of the following: \n Rock: 0 \n Paper: 1 \n Scissors: 2");
+					if(IsIntegerInRange(playerOneInput, 0, 2)) {
+						playerOneOption = Integer.parseInt(playerOneInput);
+					};
+				}
+				while(playerTwoOption == -1) {
+					String playerTwoInput = JOptionPane.showInputDialog("Player 2, choose one of the following: \n Rock: 0 \n Paper: 1 \n Scissors: 2");
+					if(IsIntegerInRange(playerTwoInput, 0, 2)) {
+						playerTwoOption = Integer.parseInt(playerTwoInput);
+					};
+				}
+				
+				// Method called to calculate points
+				playersPoints = playersPoints.CalculatePoints(playerOneOption, playerTwoOption);
+				// Store points in a local variable
+				playerOnePoints += playersPoints.playerOne;
+				playerTwoPoints += playersPoints.playerTwo;
+				// After each calculation the options need to be reset to allow the users to choose another option to play with in the next round
+				playerOneOption = -1;
+				playerTwoOption = -1;
 			}
 			
-			// Method called to calculate points
-			playersPoints = playersPoints.CalculatePoints(playerOneOption, playerTwoOption);
-			// Store points in a local variable
-			playerOnePoints += playersPoints.playerOne;
-			playerTwoPoints += playersPoints.playerTwo;
-			// After each calculation the options need to be reset to allow the users to choose another option to play with in the next round
-			playerOneOption = -1;
-			playerTwoOption = -1;
-		}
-		
-			// Call method to reveal the winner
-			AnnounceWinner(playerOnePoints, playerTwoPoints);
-			
-			// Once all rounds are complete and the winner is revealed ask users if they wish to play again
-			int result = JOptionPane.showConfirmDialog(null, "Do you wish to play again?", "Confirmation", JOptionPane.YES_NO_OPTION);
-			if (result == JOptionPane.NO_OPTION) {
-				playAgain = false;
+				// Call method to reveal the winner
+				AnnounceWinner(playerOnePoints, playerTwoPoints);
+				
+				// Once all rounds are complete and the winner is revealed ask users if they wish to play again
+				int result = JOptionPane.showConfirmDialog(null, "Do you wish to play again?", "Confirmation", JOptionPane.YES_NO_OPTION);
+				if (result == JOptionPane.NO_OPTION) {
+					playAgain = false;
+				} else {
+					// Reset points for both players
+					playerOnePoints = 0;
+					playerTwoPoints = 0;
+				}
 			}
 		}
 	}
@@ -70,15 +77,10 @@ public class RockPaperScissorsGame {
 	
 	// Players to choose how many rounds they wish to play
 	public static int ChosenNumberOfRounds() {
-		int roundsToPlay = 0;
-		// You can not 
-		while (roundsToPlay == 0) {
-			// Prompt user to state how many rounds they wish to play
-			String userInput = JOptionPane.showInputDialog("Welcome to Rock, Paper, Scissors! \n How many rounds would you wish to play?");
-			// Change input from a string to an integer so we can use this number to determine how many rounds to play
-			roundsToPlay = Integer.parseInt(userInput);
-		}
-		return roundsToPlay;
+		// Prompt user to state how many rounds they wish to play
+		String userInput = JOptionPane.showInputDialog("Welcome to Rock, Paper, Scissors! \n How many rounds would you wish to play?");
+		// Change input from a string to an integer so we can use this number to determine how many rounds to play
+		return Integer.parseInt(userInput);
 	}
 	
 	// Validation for user number inputs for their options (rock, paper, scissors)
@@ -92,6 +94,7 @@ public class RockPaperScissorsGame {
 		}
 	}	
 	
+	// Method to display the who won the game
 	// Check which player has the most points and reveal the winner of the game after all rounds have been played
 	public static void AnnounceWinner(int playerOnePoints, int playerTwoPoints) {
 		String winnerOutput = "";
