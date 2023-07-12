@@ -28,6 +28,11 @@ public class Points {
 			output = "Player 2 won this round!";
 			// Display the message showing how many rounds the user has chosen to play
 			DisplayMessage(output);
+		} else {
+			//Construct output to be displayed back to the user
+			output = "This round was a draw!";
+			// Display the message showing how many rounds the user has chosen to play
+			DisplayMessage(output);
 		}
 		
 		return playersPoints;

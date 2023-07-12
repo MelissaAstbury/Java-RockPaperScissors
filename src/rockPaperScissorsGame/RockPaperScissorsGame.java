@@ -16,6 +16,7 @@ public class RockPaperScissorsGame {
 		
 		Points playersPoints = new Points();
 		
+		// Keep playing the game
 		while (playAgain) {
 			
 		// Method called to get a value for the number of rounds the users wish to play
@@ -65,10 +66,14 @@ public class RockPaperScissorsGame {
 	
 	// PLayers to choose how many rounds they wish to play
 	public static int ChosenNumberOfRounds() {
-		// Prompt user to state how many rounds they wish to play
-		String userInput = JOptionPane.showInputDialog("Welcome to Rock, Paper, Scissors! \n How many rounds would you wish to play?");
-		// Change input from a string to an integer so we can use this number to determine how many rounds to play
-		return Integer.parseInt(userInput);
+		int roundsToPlay = 0;
+		while (roundsToPlay == 0) {
+			// Prompt user to state how many rounds they wish to play
+			String userInput = JOptionPane.showInputDialog("Welcome to Rock, Paper, Scissors! \n How many rounds would you wish to play?");
+			// Change input from a string to an integer so we can use this number to determine how many rounds to play
+			roundsToPlay = Integer.parseInt(userInput);
+		}
+		return roundsToPlay;
 	}
 	
 	// Validation for user number inputs
