@@ -6,26 +6,27 @@ public class RockPaperScissorsGame {
 
 	public static void main(String[] args) {
 		// Initialise variables
-		int roundsToPlay = 0;
 		String output = "";
+		int roundsToPlay = 0;
+		Boolean playAgain = true;
 		int playerOneOption = -1;
 		int playerTwoOption = -1;
 		int playerOnePoints = 0;
 		int playerTwoPoints = 0;
-		Boolean playAgain = true;
 		
+		// Initialise object to be used
 		Points playersPoints = new Points();
 		
 		// Keep playing the game
 		while (playAgain) {
 			
-		// Method called to get a value for the number of rounds the users wish to play
+		// Method called to ask for number of games the users wish to play
 		roundsToPlay = ChosenNumberOfRounds();
-		// Construct and display message to users to display the amount of rounds they have chosen 
+		//Construct output to be displayed back to the user
 		output = "You have chosen to play " + roundsToPlay + " games. Let the games begin!";
 		DisplayMessage(output);
 		
-		// Loop through each round so the users can choose different options (rock, paper or scissors) on each round
+		// Loop through each round so the users can choose different options (rock, paper or scissors)
 		for(int i = 0; i < roundsToPlay; i++) {
 			// Player must choose rock, paper or scissors which corresponds to a number. This number must be 0, 1 or 2. If not the user will be asked again for another number.
 			while (playerOneOption == -1) {
@@ -41,8 +42,9 @@ public class RockPaperScissorsGame {
 				};
 			}
 			
+			// Method called to calculate points
 			playersPoints = playersPoints.CalculatePoints(playerOneOption, playerTwoOption);
-			// Store result in local variable
+			// Store points in a local variable
 			playerOnePoints += playersPoints.playerOne;
 			playerTwoPoints += playersPoints.playerTwo;
 			// After each calculation the options need to be reset to allow the users to choose another option to play with in the next round
@@ -50,8 +52,10 @@ public class RockPaperScissorsGame {
 			playerTwoOption = -1;
 		}
 		
+			// Call method to reveal the winner
 			AnnounceWinner(playerOnePoints, playerTwoPoints);
 			
+			// Once all rounds are complete and the winner is revealed ask users if they wish to play again
 			int result = JOptionPane.showConfirmDialog(null, "Do you wish to play again?", "Confirmation", JOptionPane.YES_NO_OPTION);
 			if (result == JOptionPane.NO_OPTION) {
 				playAgain = false;
@@ -59,14 +63,15 @@ public class RockPaperScissorsGame {
 		}
 	}
 	
-	// Generic message functionality
+	// Method that displayed a window to show information to the user
 	public static void DisplayMessage(String output) {
 		JOptionPane.showMessageDialog(null, output, "", JOptionPane.INFORMATION_MESSAGE);
 	}
 	
-	// PLayers to choose how many rounds they wish to play
+	// Players to choose how many rounds they wish to play
 	public static int ChosenNumberOfRounds() {
 		int roundsToPlay = 0;
+		// You can not 
 		while (roundsToPlay == 0) {
 			// Prompt user to state how many rounds they wish to play
 			String userInput = JOptionPane.showInputDialog("Welcome to Rock, Paper, Scissors! \n How many rounds would you wish to play?");
@@ -76,7 +81,7 @@ public class RockPaperScissorsGame {
 		return roundsToPlay;
 	}
 	
-	// Validation for user number inputs
+	// Validation for user number inputs for their options (rock, paper, scissors)
 	public static Boolean IsIntegerInRange(String text, int minValue, int maxValue) {
 		try {
 			int value = Integer.parseInt(text);
@@ -94,30 +99,15 @@ public class RockPaperScissorsGame {
 		if (playerOnePoints > playerTwoPoints) {
 			// Construct output to be displayed back to the user
 			winnerOutput = "Player 1 has won the game!";
-			// Display the message showing how many rounds the user has chosen to play
-			JOptionPane.showMessageDialog(null, winnerOutput, "", JOptionPane.INFORMATION_MESSAGE);
+			DisplayMessage(winnerOutput);
 		} else if (playerTwoPoints > playerOnePoints) {
 			// Construct output to be displayed back to the user
 			winnerOutput = "Player 2 has won the game!";
-			// Display the message showing how many rounds the user has chosen to play
-			JOptionPane.showMessageDialog(null, winnerOutput, "", JOptionPane.INFORMATION_MESSAGE);
+			DisplayMessage(winnerOutput);
 		} else {
 			// Construct output to be displayed back to the user
 			winnerOutput = "This game was a draw!";
-			// Display the message showing how many rounds the user has chosen to play
-			JOptionPane.showMessageDialog(null, winnerOutput, "", JOptionPane.INFORMATION_MESSAGE);
+			DisplayMessage(winnerOutput);
 		}
 	}
-	
-	
-	
-	// NOTES:
-	// 1. Ask users how many rounds they wish to play - DONE
-	// 2. Ask player one for a number - DONE
-	// 3. Ask player two for a number - DONE
-	// 4. Add validation to step 2 & 3 - DONE
-	// 5. Calculate the rounds for points - DONE
-	// 6. Display the winner of each round - DONE
-	// 7. Announce the winner of the total rounds - DONE
-	// 8. Ask if they wish to play again - DONE
 }
